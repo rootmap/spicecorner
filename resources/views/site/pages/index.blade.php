@@ -87,186 +87,194 @@
         }
     </style>
 
-    <div class="stellar-section" id="menu" style="--var-ourmenu-foreground:url('{{asset('upload/siteforeground/'.$foreground->our_menu)}}');">
-        <div class="stellar-block stellar1 ta__c" style="padding-top: 100px;">
-            <div class="container">
-                <div class="row">
-                    <div class="grid_12">
-                        <h2 class="hdng__off2">
-                            Our 
-                            <span>Menu</span>
-                        </h2>
+
+    @isset($site->our_menu_module_status)
+        @if($site->our_menu_module_status=="Active")
+            <div class="stellar-section" id="menu" style="--var-ourmenu-foreground:url('{{asset('upload/siteforeground/'.$foreground->our_menu)}}');">
+                <div class="stellar-block stellar1 ta__c" style="padding-top: 100px;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="grid_12">
+                                <h2 class="hdng__off2">
+                                    Our 
+                                    <span>Menu</span>
+                                </h2>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <div class="grid_12 ta__c">
+                                @isset($dayWiseCategory)
+                                <ul id="filters" class="isotope-list">
+                                    @foreach ($dayWiseCategory as $key=>$item)
+                                        <li class="{{$key==0?'active':''}}">
+                                            <a href="javascript:void(0);"  data-filter="{{$item->id}}" class="loadom{{$key==0?' first_day_load':''}}" style="color: #000;">{{$item->name}} </a>
+                                        </li>   
+                                    @endforeach
+                                </ul>
+                                @endisset
+        
+                                
+                                <div class="container" id="daywiseMenuItem">
+                                    @isset($firstDay)
+                                        @foreach ($firstDay as $key=>$item)
+                                        <div class="row">
+                                            <div class="grid_12">
+                                                <div class="box2 box2__off1" style="margin-bottom: 0px;">
+                                                    <h4 class="omg_heading">{{$item['name']}}</h4>                                    
+                                                </div>
+                                            </div>
+                                            @foreach($item['mnitm'] as $k=>$row)
+                                            <div class="grid_6">
+                                                <div class="box2 box2__off1" style="margin-bottom: 15px;">
+                                                    <h4 class="omg_title" style="--var-omg-price:'{{$row['price']}}'">{{$k+1}}. {{$row['name']}}</h4>
+                                                    <p class="om_menu_item_detail" style="margin-top: 0px;">{{$row['description']}}</p>
+                                                    
+                                                </div>
+                                            </div>
+                                            @endforeach        
+                                        </div>
+                                        @endforeach
+                                    @endisset
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+        
+                            
                     </div>
                 </div>
+            </div>
+        @endif
+    @endisset
+    
 
-                <div class="row">
-                    <div class="grid_12 ta__c">
-                        @isset($dayWiseCategory)
-                        <ul id="filters" class="isotope-list">
-                            @foreach ($dayWiseCategory as $key=>$item)
-                                <li class="{{$key==0?'active':''}}">
-                                    <a href="javascript:void(0);"  data-filter="{{$item->id}}" class="loadom{{$key==0?' first_day_load':''}}" style="color: #000;">{{$item->name}} </a>
-                                </li>   
-                            @endforeach
-                        </ul>
-                        @endisset
+    @isset($site->takeway_menu_module_status)
+    @if($site->takeway_menu_module_status=="Active")
+        <div class="container well well__ins8" id="takeaway" style="padding-top: 95px;">
+            <div class="row">
+                <div class="grid_12">
+                    <h2 class="hdng__off2">
+                        Takeway
+                        <span>Menu</span>
+                    </h2>
+                </div>
+            </div>
 
-                        
-                        <div class="container" id="daywiseMenuItem">
-                            @isset($firstDay)
-                                @foreach ($firstDay as $key=>$item)
-                                <div class="row">
-                                    <div class="grid_12">
-                                        <div class="box2 box2__off1" style="margin-bottom: 0px;">
-                                            <h4 class="omg_heading">{{$item['name']}}</h4>                                    
+            <style type="text/css">
+                .tw_menu{ 
+                    color:#950F24; 
+                    font-weight: 500; 
+                    font-size: 18px; 
+                    font-family: 'Roboto', sans-serif; 
+                    text-transform: capitalize; 
+                    text-align: left;
+                    text-decoration: none;
+                    transition: font-size 2s;
+                }
+
+                .tw_menu:hover
+                {
+                    text-decoration: none;
+                    color:rgb(122,15,32); 
+                    border-bottom: 1px #950F24 solid;
+                    font-size: 21px;
+                }
+
+                .tw_menu_active{ 
+                    color:rgb(122,15,32); 
+                    border-bottom: 1px #950F24 solid;
+                }
+
+                .om_title{
+                    font-family: 'Roboto', sans-serif; 
+                    font-weight: 500; 
+                    font-size: 16px; 
+                    text-transform: capitalize; 
+                    text-align: left;
+                }
+
+                .tw{ border-right:1px #ccc inset; margin-left:-1px; }
+            </style>
+    
+            <div class="row">
+                <div class="grid_4 tw">
+                    @isset($takeawayMenu)
+                        @foreach ($takeawayMenu as $key=>$item)
+                        <div class="box2 box2__off1" style="margin-bottom: 12px;">
+                            <a href="javascript:void(0);" data-id="{{$item['id']}}" style=" " class="tw_menu {{$key==0?'tw_menu_active':''}}"> <i class="fa fa-bolt" aria-hidden="true"></i> &nbsp;&nbsp; {{$item['name']}}</a>                                    
+                        </div>
+                        @endforeach
+                    @endisset
+                    
+                    
+                </div>
+                <div class="grid_8">
+                    <section id="content">
+                        <style type="text/css">
+                                    
+
+                            .om_title::after{
+                                content: var(--var-mt-price);
+                                position: relative;
+                                text-align: right;
+                                float: right;
+                                color:#950F24;
+                            }
+
+                            .tw_menu_item_detail{
+                                font-family: 'Roboto', sans-serif;
+                                font-weight: 300;
+                                font-size: 14px;
+                                text-transform: capitalize;
+                                padding-right: 70px;
+                                color: rgb(0,0,0);
+                                text-align: left;
+                            }
+                        </style>
+                        <div class="container" id="tw_item">
+                                
+                            @isset($takeawayMenu[0]['mnitm'])
+                                <?php 
+                                $countTotalItemtw=count($takeawayMenu[0]['mnitm']);
+                                $i=1;
+                                $j=1;
+                                ?>
+                                @foreach ($takeawayMenu[0]['mnitm'] as $key=>$item)
+                                    @if ($i==1)
+                                    <div class="row">    
+                                    @endif
+                                        <div class="grid_4">
+                                            <div class="box2 box2__off1" style="margin-bottom: 25px;">
+                                            <h4 class="om_title" style="--var-mt-price:'{{$item['price']}}'">{{$key+1}}. {{$item['name']}}</h4>
+                                                <p class="tw_menu_item_detail">{{$item['description']}}</p>
+                                            </div>
                                         </div>
+                                    @if ($j==$countTotalItemtw)
                                     </div>
-                                    @foreach($item['mnitm'] as $k=>$row)
-                                    <div class="grid_6">
-                                        <div class="box2 box2__off1" style="margin-bottom: 15px;">
-                                            <h4 class="omg_title" style="--var-omg-price:'{{$row['price']}}'">{{$k+1}}. {{$row['name']}}</h4>
-                                            <p class="om_menu_item_detail" style="margin-top: 0px;">{{$row['description']}}</p>
-                                            
-                                        </div>
+                                    @elseif($i==2 && $j!=$countTotalItemtw)
+                                    <?php $i=0; ?>
                                     </div>
-                                    @endforeach        
-                                </div>
+                                    @endif
+                                    <?php
+                                    $i++;
+                                    $j++;
+                                    ?>
                                 @endforeach
                             @endisset
+
                             
+
+                            
+                                    
                         </div>
-                        
-                    </div>
+                    </section>
                 </div>
-
-                    
             </div>
         </div>
-    </div>
-
-
-    <div class="container well well__ins8" id="takeaway" style="padding-top: 95px;">
-        <div class="row">
-            <div class="grid_12">
-                <h2 class="hdng__off2">
-                    Takeway
-                    <span>Menu</span>
-                </h2>
-            </div>
-        </div>
-
-        <style type="text/css">
-            .tw_menu{ 
-                color:#950F24; 
-                font-weight: 500; 
-                font-size: 18px; 
-                font-family: 'Roboto', sans-serif; 
-                text-transform: capitalize; 
-                text-align: left;
-                text-decoration: none;
-                transition: font-size 2s;
-            }
-
-            .tw_menu:hover
-            {
-                text-decoration: none;
-                color:rgb(122,15,32); 
-                border-bottom: 1px #950F24 solid;
-                font-size: 21px;
-            }
-
-            .tw_menu_active{ 
-                color:rgb(122,15,32); 
-                border-bottom: 1px #950F24 solid;
-            }
-
-            .om_title{
-                font-family: 'Roboto', sans-serif; 
-                font-weight: 500; 
-                font-size: 16px; 
-                text-transform: capitalize; 
-                text-align: left;
-            }
-
-            .tw{ border-right:1px #ccc inset; margin-left:-1px; }
-        </style>
-  
-        <div class="row">
-            <div class="grid_4 tw">
-                @isset($takeawayMenu)
-                    @foreach ($takeawayMenu as $key=>$item)
-                    <div class="box2 box2__off1" style="margin-bottom: 12px;">
-                        <a href="javascript:void(0);" data-id="{{$item['id']}}" style=" " class="tw_menu {{$key==0?'tw_menu_active':''}}"> <i class="fa fa-bolt" aria-hidden="true"></i> &nbsp;&nbsp; {{$item['name']}}</a>                                    
-                    </div>
-                    @endforeach
-                @endisset
-                
-                
-            </div>
-            <div class="grid_8">
-                <section id="content">
-                    <style type="text/css">
-                                
-
-                        .om_title::after{
-                            content: var(--var-mt-price);
-                            position: relative;
-                            text-align: right;
-                            float: right;
-                            color:#950F24;
-                        }
-
-                        .tw_menu_item_detail{
-                            font-family: 'Roboto', sans-serif;
-                            font-weight: 300;
-                            font-size: 14px;
-                            text-transform: capitalize;
-                            padding-right: 70px;
-                            color: rgb(0,0,0);
-                            text-align: left;
-                        }
-                    </style>
-                    <div class="container" id="tw_item">
-                            
-                        @isset($takeawayMenu[0]['mnitm'])
-                            <?php 
-                            $countTotalItemtw=count($takeawayMenu[0]['mnitm']);
-                            $i=1;
-                            $j=1;
-                            ?>
-                            @foreach ($takeawayMenu[0]['mnitm'] as $key=>$item)
-                                @if ($i==1)
-                                <div class="row">    
-                                @endif
-                                    <div class="grid_4">
-                                        <div class="box2 box2__off1" style="margin-bottom: 25px;">
-                                        <h4 class="om_title" style="--var-mt-price:'{{$item['price']}}'">{{$key+1}}. {{$item['name']}}</h4>
-                                            <p class="tw_menu_item_detail">{{$item['description']}}</p>
-                                        </div>
-                                    </div>
-                                @if ($j==$countTotalItemtw)
-                                </div>
-                                @elseif($i==2 && $j!=$countTotalItemtw)
-                                <?php $i=0; ?>
-                                </div>
-                                @endif
-                                <?php
-                                $i++;
-                                $j++;
-                                ?>
-                            @endforeach
-                        @endisset
-
-                        
-
-                        
-                                   
-                    </div>
-                </section>
-            </div>
-        </div>
-    </div>
-    
+    @endif
+    @endisset
     
     
 
@@ -614,12 +622,21 @@
                             $.each(DayMenuItem,function(p,q){
                                 if(q.day_id==n.day_id && q.category_id==n.id)
                                 {
+                                    console.log(n.name,q);
                                     dataHj+='    <div class="grid_6">';
                                     dataHj+='        <div class="box2 box2__off1" style="margin-bottom: 15px;">';
                                     dataHj+='            <h4 class="omg_title" style="--var-omg-price:';
                                     dataHj+="'"+q.price+"'";
                                     dataHj+='">'+tt+'. '+q.name+'</h4>';
-                                    dataHj+='            <p class="om_menu_item_detail" style="margin-top: 0px;">'+q.description+'</p>';
+                                    if(q.description=== null)
+                                    {
+                                        dataHj+='            <p class="om_menu_item_detail" style="margin-top: 0px;"></p>';
+                                    }
+                                    else
+                                    {
+                                        dataHj+='            <p class="om_menu_item_detail" style="margin-top: 0px;">'+q.description+'</p>';
+                                    }
+                                    
                                     dataHj+='        </div>';
                                     dataHj+='    </div>';
                                     tt++;
@@ -670,7 +687,15 @@
                         dataHtml+='             <h4 class="om_title om_title_'+n+'" style="--var-mt-price:';
                         dataHtml+="'"+r.price+"'";
                         dataHtml+='                        ">'+n+'. '+r.name+'</h4>';
-                        dataHtml+='             <p class="tw_menu_item_detail">'+r.description+'</p>';
+                        if(r.description=== null)
+                        {
+                            dataHtml+='             <p class="tw_menu_item_detail"></p>';
+                        }
+                        else
+                        {
+                            dataHtml+='             <p class="tw_menu_item_detail">'+r.description+'</p>';
+                        }
+                        
                         dataHtml+='         </div>';
                         dataHtml+='     </div>';
                         if(n==dataLength)

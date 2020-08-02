@@ -290,35 +290,93 @@
                       </div>
                     </div>
                 </div>
+
+                        <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>Choose Our Menu Status</label>
+                                  <select class="form-control select2" style="width: 100%;"  id="our_menu_module_status" name="our_menu_module_status">
+                                                              <option value="">Please select</option>
+                                                              <option 
+                                                                      <?php 
+                                                                      if($dataRow->our_menu_module_status=="Active"){
+                                                                          ?>
+                                                                          selected="selected" 
+                                                                          <?php 
+                                                                      }
+                                                                      ?> 
+                                                              value="Active">Active</option>
+                                                              <option 
+                                                                      <?php 
+                                                                      if($dataRow->our_menu_module_status=="Inactive"){
+                                                                          ?>
+                                                                          selected="selected" 
+                                                                          <?php 
+                                                                      }
+                                                                      ?> 
+                                                              value="Inactive">Inactive</option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Choose Takeyway Menu Status</label>
+                                <select class="form-control select2" style="width: 100%;"  id="takeway_menu_module_status" name="takeway_menu_module_status">
+                                                            <option value="">Please select</option>
+                                                            <option 
+                                                                    <?php 
+                                                                    if($dataRow->takeway_menu_module_status=="Active"){
+                                                                        ?>
+                                                                        selected="selected" 
+                                                                        <?php 
+                                                                    }
+                                                                    ?> 
+                                                            value="Active">Active</option>
+                                                            <option 
+                                                                    <?php 
+                                                                    if($dataRow->takeway_menu_module_status=="Inactive"){
+                                                                        ?>
+                                                                        selected="selected" 
+                                                                        <?php 
+                                                                    }
+                                                                    ?> 
+                                                            value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Choose Site Status</label>
+                            <select class="form-control select2" style="width: 100%;"  id="module_status" name="module_status">
+                              
+                              <option value="">Please select</option>
+                                  <option 
+                                          <?php 
+                                          if($dataRow->module_status=="Active"){
+                                              ?>
+                                              selected="selected" 
+                                              <?php 
+                                          }
+                                          ?> 
+                                  value="Active">Active</option>
+                                  <option 
+                                          <?php 
+                                          if($dataRow->module_status=="Inactive"){
+                                              ?>
+                                              selected="selected" 
+                                              <?php 
+                                          }
+                                          ?> 
+                                  value="Inactive">Inactive</option>
+                            </select>
+                          </div>
+                      </div>
+                          
+                        </div>
                 
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                  <label>Choose Site Status</label>
-                                  <select class="form-control select2" style="width: 100%;"  id="module_status" name="module_status">
-                                    
-        <option value="">Please select</option>
-            <option 
-                    <?php 
-                    if($dataRow->module_status=="Active"){
-                        ?>
-                        selected="selected" 
-                        <?php 
-                    }
-                    ?> 
-            value="Active">Active</option>
-            <option 
-                    <?php 
-                    if($dataRow->module_status=="Inactive"){
-                        ?>
-                        selected="selected" 
-                        <?php 
-                    }
-                    ?> 
-            value="Inactive">Inactive</option>
-                                  </select>
-                                </div>
-                            </div>
+                            
                         </div>
                            
             </div>

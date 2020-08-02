@@ -439,7 +439,6 @@ class SiteSettingsController extends Controller
 
                 
         $tab=SiteSettings::find($id);
-        
         $tab->site_name=$request->site_name;
         $tab->site_title=$request->site_title;
         $tab->site_description=$request->site_description;
@@ -453,6 +452,8 @@ class SiteSettingsController extends Controller
         $tab->twitter_link=$request->twitter_link;
         $tab->instragram_link=$request->instragram_link;
         $tab->map_source=$request->map_source;
+        $tab->our_menu_module_status=$request->our_menu_module_status;
+        $tab->takeway_menu_module_status=$request->takeway_menu_module_status;
         $tab->module_status=$request->module_status;
         $tab->save();
 
