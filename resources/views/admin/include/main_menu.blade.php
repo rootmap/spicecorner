@@ -91,6 +91,12 @@
               <p>Table Booking</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{url('category')}}" class="nav-link {{ Request::path() == 'category' ? 'active' : '' }}">
+              <i class="nav-icon fas fa-igloo"></i>
+              <p>Menu Name CMS</p>
+            </a>
+          </li>
           
           
           

@@ -58,7 +58,6 @@ class OpeningHourController extends Controller
         $this->validate($request,[
                 
                 'title'=>'required',
-                'opening_time'=>'required',
                 'module_status'=>'required',
         ]);
 
@@ -268,7 +267,6 @@ class OpeningHourController extends Controller
         $this->validate($request,[
                 
                 'title'=>'required',
-                'opening_time'=>'required',
                 'module_status'=>'required',
         ]);
 

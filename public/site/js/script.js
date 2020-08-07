@@ -174,9 +174,9 @@ $(document).ready(function(){
         })
     }
 
-    if((obj = $('a[data-type="lightbox"]')).length > 0){
-        obj.touchTouch();
-    }
+    // if((obj = $('a[data-type="lightbox"]')).length > 0){
+    //     obj.touchTouch();
+    // }
 
     if((obj = $('.isotope')).length > 0){
         obj.isotope({

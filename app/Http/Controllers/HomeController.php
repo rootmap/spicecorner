@@ -55,7 +55,7 @@ class HomeController extends Controller
     }
 
     private function takeawayMenu(){
-        $SubCategory=TakewayCategory::where('module_status','Active')->get();
+        $SubCategory=TakewayCategory::select('id','name',\DB::Raw("(SELECT count(id) FROM takeway_menu_items WHERE category_id=takeway_categories.id) as total_item"))->where('module_status','Active')->get();
         $subCat=[];
         foreach ($SubCategory as $key => $sc) {
             $MenuItem=TakewayMenuItem::where('category_id',$sc->id)->get();
@@ -63,7 +63,7 @@ class HomeController extends Controller
             foreach ($MenuItem as $key => $mn) {
                 $mnt[]=['id'=>$mn->id,'name'=>$mn->name,'description'=>$mn->description,'price'=>$mn->price];
             }
-            $subCat[]=['id'=>$sc->id,'name'=>$sc->name,'mnitm'=>$mnt];
+            $subCat[]=['id'=>$sc->id,'name'=>$sc->name,'total_item'=>$sc->total_item,'mnitm'=>$mnt];
         }
 
         return $subCat;
@@ -77,11 +77,15 @@ class HomeController extends Controller
         $siteForeground=SiteForeground::orderBy('id','DESC')->first();
         $about=About::orderBy('id','DESC')->first();
         $slider=Slider::orderBy('id','ASC')->get();
-        $GalleryPhoto=GalleryPhoto::orderBy('id','ASC')->get();
+        $category=Category::orderBy('id','ASC')->get();
+        $GalleryPhoto=GalleryPhoto::orderBy('id','ASC')->take('8')->get();
         $openingHour=OpeningHour::orderBy('id','ASC')->get();
-        $DayWiseCategory=OurMenuDay::select('id','name')->where('module_status','Active')->orderBy('id','ASC')->get();
+        $DayWiseCategory=OurMenuDay::select('id','name',\DB::Raw("(SELECT count(id) FROM day_menu_items WHERE day_id=our_menu_daies.id) as total_item"))->where('module_status','Active')->orderBy('id','ASC')->get();
         $OurMenuCategory=OurMenuCategory::select('id','name','day_id')->where('module_status','Active')->orderBy('id','ASC')->get();
         $DayMenuItem=DayMenuItem::where('module_status','Active')->orderBy('id','ASC')->get();
+        
+        //dd($DayWiseCategory);
+        
         $firstDay=[];
         $subCat=[];
         $first_day_id=0;
@@ -120,10 +124,11 @@ class HomeController extends Controller
         $menuitm=[];
 
         $takeawayMenu=$this->takeawayMenu();
-        //dd($subCat);
+        //dd($takeawayMenu);
         $data=[
             'site'=>$siteSetting,
             'slider'=>$slider,
+            'category'=>$category,
             'about'=>$about,
             'gallery'=>$GalleryPhoto,
             'openingHour'=>$openingHour,
@@ -143,10 +148,22 @@ class HomeController extends Controller
 
     public function privacy()
     {
+        $category=Category::orderBy('id','ASC')->get();
         $siteSetting=SiteSettings::orderBy('id','DESC')->first();
         $privacy=PrivacyCMS::orderBy('id','DESC')->first();
-        $data=['site'=>$siteSetting,'privacy'=>$privacy];
+        $data=['site'=>$siteSetting,'privacy'=>$privacy,'category'=>$category];
         return view('site.pages.privacy',$data);
+    }
+
+
+    public function gallery()
+    {
+        $GalleryPhoto=GalleryPhoto::orderBy('id','ASC')->get();
+        $category=Category::orderBy('id','ASC')->get();
+        $siteSetting=SiteSettings::orderBy('id','DESC')->first();
+        $privacy=PrivacyCMS::orderBy('id','DESC')->first();
+        $data=['site'=>$siteSetting,'privacy'=>$privacy,'gallery'=>$GalleryPhoto,'category'=>$category];
+        return view('site.pages.gallery',$data);
     }
 
     public function savereservation(Request $request){

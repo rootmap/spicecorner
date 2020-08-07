@@ -49,14 +49,13 @@
             font-family: 'Roboto', sans-serif;
             font-weight: 300;
             font-size: 14px;
+            text-align: justify;
             text-transform: capitalize;
             padding-right: 70px;
             color: rgb(0,0,0);
             text-align: left;
         }
-    </style>
 
-    <style type="text/css">
         .omg_title{
             font-family: 'Roboto', sans-serif; 
                 font-weight: 500; 
@@ -85,19 +84,28 @@
                 transition: font-size 2s;
                 padding-bottom: 10px;
         }
+
+        .loadom{
+            color: #000;
+        }
+
+
+        .first_day_load{
+            color:#9EC64D;
+        }
     </style>
 
 
     @isset($site->our_menu_module_status)
         @if($site->our_menu_module_status=="Active")
             <div class="stellar-section" id="menu" style="--var-ourmenu-foreground:url('{{asset('upload/siteforeground/'.$foreground->our_menu)}}');">
-                <div class="stellar-block stellar1 ta__c" style="padding-top: 100px;">
+                <div class="stellar-block stellar1 ta__c" style="padding-top: 100px; ">
                     <div class="container">
                         <div class="row">
                             <div class="grid_12">
-                                <h2 class="hdng__off2">
-                                    Our 
-                                    <span>Menu</span>
+                                <h2 class="hdng">
+                                    {{$category[0]->name}} 
+                                    <span style="font: 100 46px/50px 'Lato', sans-serif;">{{$category[0]->sub_name}}</span>
                                 </h2>
                             </div>
                         </div>
@@ -106,9 +114,13 @@
                             <div class="grid_12 ta__c">
                                 @isset($dayWiseCategory)
                                 <ul id="filters" class="isotope-list">
+                                    <?php 
+                                        $total_item=1;
+                                    ?>
                                     @foreach ($dayWiseCategory as $key=>$item)
                                         <li class="{{$key==0?'active':''}}">
-                                            <a href="javascript:void(0);"  data-filter="{{$item->id}}" class="loadom{{$key==0?' first_day_load':''}}" style="color: #000;">{{$item->name}} </a>
+                                            <a href="javascript:void(0);" data-length="{{$total_item}}" data-filter="{{$item->id}}" class="loadom{{$key==0?' first_day_load':''}}">{{$item->name}} </a>
+                                            <?php $total_item+=$item->total_item; ?>
                                         </li>   
                                     @endforeach
                                 </ul>
@@ -117,6 +129,7 @@
                                 
                                 <div class="container" id="daywiseMenuItem">
                                     @isset($firstDay)
+                                        <?php $kkk=1; ?>
                                         @foreach ($firstDay as $key=>$item)
                                         <div class="row">
                                             <div class="grid_12">
@@ -125,15 +138,17 @@
                                                 </div>
                                             </div>
                                             @foreach($item['mnitm'] as $k=>$row)
-                                            <div class="grid_6">
+                                            <div class="grid_4">
                                                 <div class="box2 box2__off1" style="margin-bottom: 15px;">
-                                                    <h4 class="omg_title" style="--var-omg-price:'{{$row['price']}}'">{{$k+1}}. {{$row['name']}}</h4>
+                                                    <h4 class="omg_title" style="--var-omg-price:'{{$row['price']}}'">{{$kkk}}. {{$row['name']}}</h4>
                                                     <p class="om_menu_item_detail" style="margin-top: 0px;">{{$row['description']}}</p>
                                                     
                                                 </div>
                                             </div>
+                                            <?php $kkk++; ?>
                                             @endforeach        
                                         </div>
+                                        
                                         @endforeach
                                     @endisset
                                     
@@ -152,12 +167,12 @@
 
     @isset($site->takeway_menu_module_status)
     @if($site->takeway_menu_module_status=="Active")
-        <div class="container well well__ins8" id="takeaway" style="padding-top: 95px;">
+        <div class="container well well__ins8" id="{{$category[1]->name}}" style="padding-top: 95px;">
             <div class="row">
                 <div class="grid_12">
-                    <h2 class="hdng__off2">
-                        Takeway
-                        <span>Menu</span>
+                    <h2 class="hdng" style="font: 400 100px/100px 'Dancing Script', cursive;">
+                        {{$category[1]->name}} 
+                        <span>{{$category[1]->sub_name}} </span>
                     </h2>
                 </div>
             </div>
@@ -196,15 +211,38 @@
                 }
 
                 .tw{ border-right:1px #ccc inset; margin-left:-1px; }
+
+                .om_title::after{
+                    content: var(--var-mt-price);
+                    position: relative;
+                    text-align: right;
+                    float: right;
+                    color:#950F24;
+                }
+
+                .tw_menu_item_detail{
+                    font-family: 'Roboto', sans-serif;
+                    font-weight: 300;
+                    font-size: 14px;
+                    text-align: justify;
+                    text-transform: capitalize;
+                    padding-right: 70px;
+                    color: rgb(0,0,0);
+                    text-align: left;
+                }
             </style>
     
             <div class="row">
                 <div class="grid_4 tw">
                     @isset($takeawayMenu)
+                        <?php 
+                        $data_loop=1; 
+                        ?>
                         @foreach ($takeawayMenu as $key=>$item)
                         <div class="box2 box2__off1" style="margin-bottom: 12px;">
-                            <a href="javascript:void(0);" data-id="{{$item['id']}}" style=" " class="tw_menu {{$key==0?'tw_menu_active':''}}"> <i class="fa fa-bolt" aria-hidden="true"></i> &nbsp;&nbsp; {{$item['name']}}</a>                                    
+                            <a href="javascript:void(0);" data-length="{{$data_loop}}" data-id="{{$item['id']}}" style=" " class="tw_menu {{$key==0?'tw_menu_active':''}}"> <i class="fa fa-bolt" aria-hidden="true"></i> &nbsp;&nbsp; {{$item['name']}}</a>                                    
                         </div>
+                        <?php $data_loop+=$item['total_item']; ?>
                         @endforeach
                     @endisset
                     
@@ -212,27 +250,7 @@
                 </div>
                 <div class="grid_8">
                     <section id="content">
-                        <style type="text/css">
-                                    
-
-                            .om_title::after{
-                                content: var(--var-mt-price);
-                                position: relative;
-                                text-align: right;
-                                float: right;
-                                color:#950F24;
-                            }
-
-                            .tw_menu_item_detail{
-                                font-family: 'Roboto', sans-serif;
-                                font-weight: 300;
-                                font-size: 14px;
-                                text-transform: capitalize;
-                                padding-right: 70px;
-                                color: rgb(0,0,0);
-                                text-align: left;
-                            }
-                        </style>
+         
                         <div class="container" id="tw_item">
                                 
                             @isset($takeawayMenu[0]['mnitm'])
@@ -281,7 +299,7 @@
     
     
     <div class="bg1" id="gallery">
-        <div class="container well well__ins3">
+        <div class="container well well__ins3" style="padding: 69px 0 64px;">
             <div class="row">
                 <div class="grid_12">
                     <h2 class="hdng">
@@ -297,9 +315,9 @@
                     <?php if($k==1){ ?>
                         <div class="row">
                     <?php } 
-                    $class="grid_3 off1";               
+                    $class="grid_3 off1 js-img-viwer";               
                     ?>
-                    <a data-type="lightbox" class="{{$class}}" href="{{asset('upload/galleryphoto/'.$item->photo)}}">
+                    <a data-type="lightbox" class="{{$class}}" href="{{asset('upload/galleryphoto/'.$item->photo)}}"  data-caption="" data-id="{{$item->id}}">
                         <img src="{{asset('upload/galleryphoto/small/'.$item->photo)}}" alt="{{$item->photo_title}}"/>
                     </a>
                     <?php 
@@ -323,6 +341,12 @@
                     ?>
                 @endforeach
             @endisset
+
+            <div class="row">
+                <div class="grid_12 ta__c well__ins4" style="padding-top: 30px;">
+                    <a class="btn1" href="{{url('gallery')}}">See all photos</a>
+                </div>
+            </div>
     
             
         </div>
@@ -334,18 +358,27 @@
             <div class="container">
             <div class="row" style="transform: translate3d(0px, 0px, 0px); padding-top:121px; padding-bottom:100px;">
                 
-                <div class="grid_6" style="padding-bottom: 30px;">
-                    <h2 class="hdng" >
-                        <span class="hdng" style="font-weight: bolder; color: #FFF;">{{$reservationInfo->opening_hour_title}}</span>
-                    </h2>
-                    <div class="box2 box2__off1" style="padding-top:50px;">
-                        @isset($openingHour)
+                <div class="grid_4" style="padding-bottom: 30px;">
+                    <h4>
+                        <span class="hdng" style="display: block; font-weight: bolder; color: #FFF; font: 400 37px/100px 'Dancing Script', cursive;
+                        text-align: center;">{{$reservationInfo->opening_hour_title}}</span>
+                    </h4>
+                    <div class="box2 box2__off1" style="padding-top:0px; background: rgba(0,0,0,0.5);
+                    padding: 40px;
+                    border-radius: 10px;">
+                        @isset($openingHour)      
                         <ul class="menu-list">   
                             @foreach ($openingHour as $item)
-                            <li>
-                                <a href="#" style="color: #fff;">{{$item->title}}</a>
-                                <span style="color: #fff;">{{$item->opening_time}}</span>
-                            </li>
+                                @if (!empty($item->opening_time))
+                                    <li>
+                                        <a href="#" style="color: #fff;">{{$item->title}}</a>
+                                        <span  style="color: #fff;">{{$item->opening_time}}</span>
+                                    </li>
+                                @else
+                                    <li style="border-bottom: 0px;">
+                                        <a href="#" style="color: #fff; margin-top:20px; font-size:20px; width:100%; text-align: center; font-weight: bolder; display: inline-block;">{{$item->title}}</a>
+                                    </li>
+                                @endif
                             @endforeach                 
                         </ul>
                         @endisset
@@ -354,10 +387,11 @@
                 
                 
         
-                <div class="grid_6" style="background: url('{{asset('site/images/cnt-bg.jpg')}}'); border-radius: 5px;">
+                <div class="grid_8" style="background: url('{{asset('site/images/cnt-bg.jpg')}}'); border-radius: 5px;">
                     <div class="well well__ins8"  style="padding-bottom: 45px;">
-                        <h2 class="hdng">
-                            <span style="font-weight: bolder;">{{$reservationInfo->reservation_title}}</span>
+                        <h2>
+                            <span class="hdng" style="display: block; font-weight: bolder; font: 400 37px/100px 'Dancing Script', cursive;
+                            text-align: center;">{{$reservationInfo->reservation_title}}</span>
                         </h2>
 
 
@@ -446,7 +480,7 @@
             <div class="container well well__ins3" style="padding-top: 0px; padding-bottom: 35px;">
                 <div class="row">
                     <div class="grid_12">
-                        <h2 class="hdng__off2">
+                        <h2 class="hdng">
                             {{$homeDelivery->title}}
                             <span>{{$homeDelivery->sub_title}}</span>
                         </h2>
@@ -482,28 +516,28 @@
             <div class="row" style="transform: translate3d(0px, 0px, 0px); padding-top:30px;">
                 
                 <div class="grid_4" style="padding-bottom: 30px;">
-                <h3 class="footer-title" style="color: #fff; padding-bottom: 20px;">{{$reservationInfo->opening_hour_title}}</h3>
-                <div class="open-time opening-time" style="color: #fff; ">
+                <h3 class="footer-title" style="color: #fff; padding-bottom: 20px; text-align: center;">{{$reservationInfo->opening_hour_title}}</h3>
+                <div class="open-time opening-time" style="color: #fff; background: rgba(0,0,0,0.6);
+                padding: 15px 0px 20px 0px;
+                text-align: center;
+                border-radius: 10px;">
+                    @isset($openingHour)
+                        @foreach ($openingHour as $item)
+                            @if (!empty($item->opening_time))
+                                <p>
+                                    <strong>{{$item->title}}</strong> {{$item->opening_time}}
+                                </p>
+                            @else
+                                <p style="    margin-bottom: 20px; margin-top: 20px;">
+                                    <strong><span style="font-size: 24px;">{{$item->title}}</span></strong>
+                                </p>
+                            @endif
+                        @endforeach                 
+                    @endisset
                                 
-                                <p>
-                        <strong>Måndag - Torsdag :</strong> 11:00 - 15:00, 15:00 - 22:00
-                    </p>
+                                
         
                     
-                                <p>
-                        <strong>Fredag :</strong> 11:00 - 15:00, 15:00 - 23:00
-                    </p>
-        
-                    
-                                <p>
-                        <strong>Lördag :</strong> 12:00 - 23:00
-                    </p>
-        
-                    
-                                <p>
-                        <strong>Söndag :</strong> 12:00 - 22:00
-                    </p>
-        
                                         </div>
                 </div>
                 
@@ -555,12 +589,20 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
+    <link rel="stylesheet" href="{{asset('site/smartphoto/css/smartphoto.min.css')}}">
+	<link rel="stylesheet" href="{{asset('site/smartphoto/examples/assets/style.css')}}">
 @endsection
 
 @section('js')
-
+<script src="{{asset('site/smartphoto/js/jquery-smartphoto.min.js?v=1')}}"></script>
 <script>
+
+    var windowHeightSize=$(window).height();
+    $(".camera-wrapper").css('min-height',windowHeightSize);
+
+    $(function(){
+		$(".js-img-viwer").SmartPhoto();
+	});
     $.getScript("https://cdn.jsdelivr.net/npm/sweetalert2@9");
 
     @if(Session::has('status')) 
@@ -594,17 +636,21 @@
         $('body').on('click','.loadom',function(){
             //alert('ok');
             var day_id=$(this).attr('data-filter');
+            var data_length=$(this).attr('data-length');
 
             $('.loadom').each(function(r,y){
                 $(y).parent().removeClass('active');
+                $(y).removeClass('first_day_load');
             });
 
             $(this).parent().addClass('active');
+            $(this).addClass('first_day_load');
             
             var dataHj='';
             $.each(dayWiseCategory,function(k,r){
                 if(r.id==day_id)
                 {
+                    var tt=data_length;
                     console.log('Day Found',r);
                     $.each(OurMenuCategory,function(m,n){
 
@@ -618,12 +664,12 @@
                             dataHj+='            <h4  class="omg_heading">'+n.name+'</h4>';                                    
                             dataHj+='        </div>';
                             dataHj+='    </div>';
-                            var tt=1;
+                            
                             $.each(DayMenuItem,function(p,q){
                                 if(q.day_id==n.day_id && q.category_id==n.id)
                                 {
                                     console.log(n.name,q);
-                                    dataHj+='    <div class="grid_6">';
+                                    dataHj+='    <div class="grid_4">';
                                     dataHj+='        <div class="box2 box2__off1" style="margin-bottom: 15px;">';
                                     dataHj+='            <h4 class="omg_title" style="--var-omg-price:';
                                     dataHj+="'"+q.price+"'";
@@ -665,6 +711,7 @@
             $(this).addClass('tw_menu_active');
 
             var data_id=$(this).attr('data-id');
+            var data_length=$(this).attr('data-length');
 
             $.each(takeawayMenu,function(key,row){
                // console.log(row);
@@ -673,20 +720,21 @@
                     var dataHtml='';
                     var m=1;
                     var n=1;
+                    var nn=data_length;
                     var dataLength=row.mnitm.length;
                     console.log('dataLength',dataLength);
                     $.each(row.mnitm,function(k,r){
                         console.log(r);
                         if(m==1)
                         {
-                        dataHtml+='<div class="row">';
+                            dataHtml+='<div class="row">';
                         }
 
-                        dataHtml+='     <div class="grid_4">';
-                        dataHtml+='         <div class="box2 box2__off1" style="margin-bottom: 25px;">';
-                        dataHtml+='             <h4 class="om_title om_title_'+n+'" style="--var-mt-price:';
-                        dataHtml+="'"+r.price+"'";
-                        dataHtml+='                        ">'+n+'. '+r.name+'</h4>';
+                            dataHtml+='     <div class="grid_4">';
+                            dataHtml+='         <div class="box2 box2__off1" style="margin-bottom: 25px;">';
+                            dataHtml+='             <h4 class="om_title om_title_'+n+'" style="--var-mt-price:';
+                            dataHtml+="'"+r.price+"'";
+                            dataHtml+='                        ">'+nn+'. '+r.name+'</h4>';
                         if(r.description=== null)
                         {
                             dataHtml+='             <p class="tw_menu_item_detail"></p>';
@@ -708,6 +756,7 @@
                         dataHtml+='</div>';
                         }
                         n++;
+                        nn++;
                         m++;
                     });
 

@@ -21,7 +21,7 @@
     <!--<![endif]-->
     <script src="{{asset('site/js/camera.js')}}"></script>
     <script src="{{asset('site/js/jquery.equalheights.js')}}"></script>
-    <script src="{{asset('site/js/touchTouch.js')}}"></script>
+    {{-- <script src="{{asset('site/js/touchTouch.js')}}"></script> --}}
 
     <link rel="stylesheet" href="{{asset('site/css/contact-form.css')}}"/>
     {{-- <script src="{{asset('site/js/jquery.equalheights.js')}}"></script>

@@ -24,12 +24,17 @@
                     <li>
                         <a href="{{url('/#about')}}">About Us</a>
                     </li>
+                    @if ($site->our_menu_module_status=="Active")
+                        <li>
+                            <a href="{{url('/#menu')}}">{{$category[0]->sub_name}}</a>
+                        </li>
+                    @endif
+                    @if ($site->takeway_menu_module_status=="Active")
                     <li>
-                        <a href="{{url('/#menu')}}">Menu</a>
+                        <a href="{{url('/#'.$category[1]->name)}}">{{$category[1]->sub_name}}</a>
                     </li>
-                    <li>
-                        <a href="{{url('/#takeaway')}}">Takeaway</a>
-                    </li>
+                    @endif
+                    
                     <li>
                         <a href="{{url('/#gallery')}}">Gallery</a>
                     </li>
