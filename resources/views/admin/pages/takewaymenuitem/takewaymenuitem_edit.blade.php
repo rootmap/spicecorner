@@ -78,7 +78,7 @@
                                             @foreach($dataRow_TakewayCategory as $TakewayCategory)
                                                 <option 
                                         @if(isset($dataRow->id))
-                                            @if($dataRow->id==$TakewayCategory->id)
+                                            @if($dataRow->category_id==$TakewayCategory->id)
                                                 selected="selected" 
                                             @endif
                                         @endif 

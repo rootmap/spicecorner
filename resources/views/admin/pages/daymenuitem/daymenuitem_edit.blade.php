@@ -78,7 +78,7 @@
                                             @foreach($dataRow_OurMenuDay as $OurMenuDay)
                                                 <option 
                                         @if(isset($dataRow->id))
-                                            @if($dataRow->id==$OurMenuDay->id)
+                                            @if($dataRow->day_id==$OurMenuDay->id)
                                                 selected="selected" 
                                             @endif
                                         @endif 
@@ -103,7 +103,7 @@
                                             @foreach($dataRow_OurMenuCategory as $OurMenuCategory)
                                                 <option 
                                         @if(isset($dataRow->id))
-                                            @if($dataRow->id==$OurMenuCategory->id)
+                                            @if($dataRow->category_id==$OurMenuCategory->id)
                                                 selected="selected" 
                                             @endif
                                         @endif 

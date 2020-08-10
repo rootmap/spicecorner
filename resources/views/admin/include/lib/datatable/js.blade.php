@@ -6,9 +6,10 @@
 <!-- page script -->
 <script>
   $(function () {
-    $("#example1").DataTable();
+    $("#example1").DataTable({ "pageLength": 100 });
     $('#example2').DataTable({
       "paging": true,
+      "pageLength": 100,
       "lengthChange": true,
       "searching": true,
       "ordering": false,

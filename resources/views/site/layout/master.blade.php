@@ -14,8 +14,10 @@
     <link rel="stylesheet" href="{{asset('site/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('site/css/camera.css')}}"/>
     <link rel="stylesheet" href="{{asset('site/css/touchTouch.css')}}"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="{{asset('site/js/jquery.js')}}"></script>
     <script src="{{asset('site/js/jquery-migrate-1.2.1.js')}}"></script>
+
     <!--[if (gt IE 9)|!(IE)]><!-->
     <script src="{{asset('site/js/jquery.mobile.customized.min.js')}}"></script>
     <!--<![endif]-->
@@ -77,7 +79,9 @@
 @include('site.extra.fotter')
 
 <script src="{{asset('site/js/script.js')}}"></script>
+
 @yield('js')
+
 </body>
 
 </html>

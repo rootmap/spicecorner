@@ -119,7 +119,7 @@
                                     ?>
                                     @foreach ($dayWiseCategory as $key=>$item)
                                         <li class="{{$key==0?'active':''}}">
-                                            <a href="javascript:void(0);" data-length="{{$total_item}}" data-filter="{{$item->id}}" class="loadom{{$key==0?' first_day_load':''}}">{{$item->name}} </a>
+                                            <a href="javascript:void(0);" data-opt-menu="{{$item->opt_menu}}" data-length="{{$total_item}}" data-filter="{{$item->id}}" class="loadom{{$key==0?' first_day_load':''}}">{{$item->name}} </a>
                                             <?php $total_item+=$item->total_item; ?>
                                         </li>   
                                     @endforeach
@@ -137,7 +137,17 @@
                                                     <h4 class="omg_heading">{{$item['name']}}</h4>                                    
                                                 </div>
                                             </div>
+										</div>
+									
+											<?php 
+											$kkn=1;
+											$kkn_i=1;
+											$kkn_count=count($item['mnitm']);
+											?>
                                             @foreach($item['mnitm'] as $k=>$row)
+												@if($kkn==1)
+													<div class="row">
+												@endif
                                             <div class="grid_4">
                                                 <div class="box2 box2__off1" style="margin-bottom: 15px;">
                                                     <h4 class="omg_title" style="--var-omg-price:'{{$row['price']}}'">{{$kkk}}. {{$row['name']}}</h4>
@@ -145,13 +155,43 @@
                                                     
                                                 </div>
                                             </div>
-                                            <?php $kkk++; ?>
+											
+											@if($kkn==3)
+													</div>
+												<?php $kkn=0;  ?>
+											@elseif($kkn_i==$kkn_count)
+													</div>
+											@endif
+											
+                                            <?php 
+											$kkk++; 
+											$kkn++;
+											$kkn_i++;
+											?>
                                             @endforeach        
-                                        </div>
+                                        
                                         
                                         @endforeach
                                     @endisset
                                     
+                                    
+                                    
+                                </div>
+
+                                <div class="row" id="extra_day_menu">
+                                @if (!empty($dayWiseCategory[0]->opt_menu))
+                                    <?php 
+                                        $dataJson=json_decode($dayWiseCategory[0]->opt_menu);
+                                    ?>
+                                    
+                                        @foreach ($dataJson as $item)
+                                            <div class="grid_12">
+                                                <h4 class="omg_title" style="color: #950F24;">{{$item}}</h4>
+                                            </div>
+                                        @endforeach
+                                    
+                                    
+                                @endif
                                 </div>
                                 
                             </div>
@@ -360,8 +400,8 @@
                 
                 <div class="grid_4" style="padding-bottom: 30px;">
                     <h4>
-                        <span class="hdng" style="display: block; font-weight: bolder; color: #FFF; font: 400 37px/100px 'Dancing Script', cursive;
-                        text-align: center;">{{$reservationInfo->opening_hour_title}}</span>
+                        <span class="hdng" style="display: block; font-weight: bolder; color: #FFF; font: 400 50px/100px 'Dancing Script', cursive;
+                        text-align: center; text-transform: capitalize;">{{$reservationInfo->opening_hour_title}}</span>
                     </h4>
                     <div class="box2 box2__off1" style="padding-top:0px; background: rgba(0,0,0,0.5);
                     padding: 40px;
@@ -390,10 +430,9 @@
                 <div class="grid_8" style="background: url('{{asset('site/images/cnt-bg.jpg')}}'); border-radius: 5px;">
                     <div class="well well__ins8"  style="padding-bottom: 45px;">
                         <h2>
-                            <span class="hdng" style="display: block; font-weight: bolder; font: 400 37px/100px 'Dancing Script', cursive;
-                            text-align: center;">{{$reservationInfo->reservation_title}}</span>
+                            <span class="hdng" style="display: block; font-weight: bolder; font: 400 50px/100px 'Dancing Script', cursive;
+                            text-align: center; text-transform: capitalize;">{{$reservationInfo->reservation_title}}</span>
                         </h2>
-
 
 
                         <form id="contact-form" method="POST" action="{{url('reservation')}}">
@@ -436,7 +475,7 @@
                                     <select name="time" id="time">
                                         <option value="">Select Time</option>
                                         @for ($i = 0; $i<=23; $i++)
-                                            @for ($j = 0; $j<=55; $j+=5)
+                                            @for ($j = 0; $j<=55; $j+=$reservationInfo->booking_min_frame)
                                                 <option value="{{strlen($i)==1?'0'.$i:$i}}:{{strlen($j)==1?'0'.$j:$j}}">{{strlen($i)==1?'0'.$i:$i}}:{{strlen($j)==1?'0'.$j:$j}}</option>
                                             @endfor
                                         @endfor
@@ -446,7 +485,7 @@
                                 <label class="Person label50">
                                     <select name="person" id="person">
                                         <option value="">Select Person</option>
-                                        @for ($i = 1; $i <=100; $i++)
+                                        @for ($i = 1; $i <=$reservationInfo->booking_max_person; $i++)
                                             <option value="{{$i}} Person">{{$i}} Person</option>
                                         @endfor
                                     </select>
@@ -542,7 +581,7 @@
                 </div>
                 
                 <div class="grid_4" style="padding-bottom: 30px;">
-                <h3 class="footer-title" style="color: #fff; padding-bottom: 20px;">contacts</h3>
+                <h3 class="footer-title" style="color: #fff; padding-bottom: 20px;">Contacts</h3>
                 <div class="address" style="color: #fff;">
                     <p class="icon-map"><i class="fa fa-map-marker" style="margin-bottom: 0px; margin-top: 5px;"></i>  Address :  {{$site->contact_address}} </p>
                     <p><i class="fa fa-phone" style="margin-bottom: 0px; margin-top: 5px;"></i> <a href="tel:{{$site->contact_tel}}"> Tel :  {{$site->contact_tel}}</a></p>
@@ -603,15 +642,9 @@
     $(function(){
 		$(".js-img-viwer").SmartPhoto();
 	});
-    $.getScript("https://cdn.jsdelivr.net/npm/sweetalert2@9");
-
-    @if(Session::has('status')) 
-        Swal.fire({
-            icon: 'success',
-            title: '<h3 class="text-success">Thank You</h3>',
-            html: "<h5>{{Session::get('status')}}</h5>"
-        });
-    @endif
+    
+    
+    
 
     var dayWiseCategory=<?=json_encode($dayWiseCategory)?>;
     var OurMenuCategory=<?=json_encode($OurMenuCategory)?>;
@@ -633,10 +666,19 @@
 
     $(document).ready(function(){
 
+        @if(Session::has('status')) 
+            Swal.fire({
+                icon: 'success',
+                title: '<h3 class="text-success">Thank You</h3>',
+                html: "<h5>{{Session::get('status')}}</h5>"
+            });
+        @endif
+
         $('body').on('click','.loadom',function(){
             //alert('ok');
             var day_id=$(this).attr('data-filter');
             var data_length=$(this).attr('data-length');
+            var data_opt_menu=$(this).attr('data-opt-menu');
 
             $('.loadom').each(function(r,y){
                 $(y).parent().removeClass('active');
@@ -650,7 +692,24 @@
             $.each(dayWiseCategory,function(k,r){
                 if(r.id==day_id)
                 {
-                    var tt=data_length;
+                    console.log('data_opt_menu',data_opt_menu);
+                    //extra_day_menu
+
+                    var menuopt_obj=JSON.parse(data_opt_menu);
+                    console.log('menuopt_obj',menuopt_obj);
+                    var optMenuHtml='';
+                    if(menuopt_obj.length>0)
+                    {
+                        $.each(menuopt_obj,function(kp,lp){
+                            optMenuHtml+='<div class="grid_12">';
+                            optMenuHtml+='<h4 class="omg_title" style="color: #950F24;">'+lp+'</h4>';
+                            optMenuHtml+='</div>';
+                        });
+                    }
+
+                    $("#extra_day_menu").html(optMenuHtml);
+
+                    var tt=1;
                     console.log('Day Found',r);
                     $.each(OurMenuCategory,function(m,n){
 
@@ -664,11 +723,27 @@
                             dataHj+='            <h4  class="omg_heading">'+n.name+'</h4>';                                    
                             dataHj+='        </div>';
                             dataHj+='    </div>';
-                            
+							dataHj+='</div>';
+                            var nk=1;
+							var nkk=1;
+							var datank_length=0;
+							
+							$.each(DayMenuItem,function(p,q){
+                                if(q.day_id==n.day_id && q.category_id==n.id)
+                                {
+									datank_length++;
+								}
+								
+							});
+							
                             $.each(DayMenuItem,function(p,q){
                                 if(q.day_id==n.day_id && q.category_id==n.id)
                                 {
                                     console.log(n.name,q);
+									if(nk==1)
+									{
+										dataHj+='<div class="row">';
+									}
                                     dataHj+='    <div class="grid_4">';
                                     dataHj+='        <div class="box2 box2__off1" style="margin-bottom: 15px;">';
                                     dataHj+='            <h4 class="omg_title" style="--var-omg-price:';
@@ -685,13 +760,26 @@
                                     
                                     dataHj+='        </div>';
                                     dataHj+='    </div>';
+									if(nk==3)
+									{
+										dataHj+='</div>';
+										nk=0;
+									}
+									else if(datank_length==nkk)
+									{
+										dataHj+='</div>';
+									}
                                     tt++;
+									nk++;
+									nkk++;
                                 }
+								
+								
                                 
                                 
                             });
 
-                            dataHj+='</div>';
+                            //dataHj+='</div>';
 
 
                         }

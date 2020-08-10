@@ -74,7 +74,14 @@
                         @if(count($dataRow))
                             @foreach($dataRow as $row)  
                                 <tr>
-                                    <td class="text-center">{{$row->id}}</td><td class="text-center">{{$row->photo_title}}</td><td class="text-center">{{$row->photo}}</td><td class="text-center">{{$row->module_status}}</td>
+                                    <td class="text-center">{{$row->id}}</td>
+                                    <td class="text-center">{{$row->photo_title}}</td>
+                                    <td class="text-center">
+                                      @if(!empty($row->photo))
+                                          <img src="{{asset('upload/slider/'.$row->photo)}}" width="100"  />
+                                      @endif
+                                    </td>
+                                    <td class="text-center">{{$row->module_status}}</td>
                                     <td>{{formatDate($row->created_at)}}</td>
                                     <td>
                                         <div class="btn-group">

@@ -38,6 +38,10 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    private $moduleName="Spicecorner";
+    private $sdc;
+    public function __construct(){ $this->sdc = new CoreCustomController(); }
+
     private function menuItm(){
 
         $SubCategory=OurMenuCategory::where('module_status','Active')->get();
@@ -80,7 +84,7 @@ class HomeController extends Controller
         $category=Category::orderBy('id','ASC')->get();
         $GalleryPhoto=GalleryPhoto::orderBy('id','ASC')->take('8')->get();
         $openingHour=OpeningHour::orderBy('id','ASC')->get();
-        $DayWiseCategory=OurMenuDay::select('id','name',\DB::Raw("(SELECT count(id) FROM day_menu_items WHERE day_id=our_menu_daies.id) as total_item"))->where('module_status','Active')->orderBy('id','ASC')->get();
+        $DayWiseCategory=OurMenuDay::select('id','name','opt_menu',\DB::Raw("(SELECT count(id) FROM day_menu_items WHERE day_id=our_menu_daies.id) as total_item"))->where('module_status','Active')->orderBy('id','ASC')->get();
         $OurMenuCategory=OurMenuCategory::select('id','name','day_id')->where('module_status','Active')->orderBy('id','ASC')->get();
         $DayMenuItem=DayMenuItem::where('module_status','Active')->orderBy('id','ASC')->get();
         
@@ -167,6 +171,9 @@ class HomeController extends Controller
     }
 
     public function savereservation(Request $request){
+        
+        $reservationInfo=ReservationInfo::orderBy('id','DESC')->first();
+        
         $this->validate($request,[
                     
                 'name'=>'required',
@@ -177,6 +184,20 @@ class HomeController extends Controller
                 'person'=>'required',
         ]);
 
+        $emmail_message=$this->bookingTemplate($request);
+        
+
+        $this->sdc->initMail($request->email,
+        'Online Reservation - '.$this->sdc->SiteName,
+        $emmail_message);
+
+
+        $this->sdc->initMail($reservationInfo->booking_admin_email,
+        'Online Reservation - '.$this->sdc->SiteName,
+        $emmail_message);
+
+        //dd($emmail_message);
+
         $tab=new TableBooking();
         $tab->name=$request->name;
         $tab->email=$request->email;
@@ -186,6 +207,93 @@ class HomeController extends Controller
         $tab->person=$request->person;
         $tab->save();
 
-        return redirect(url('/'))->with('status','Booking request send, please wait for admin confirmation.');
+        
+
+        return redirect(url('/#Reservation'))->with('status',$reservationInfo->reservation_request_message);
+    }
+
+    private function bookingTemplate($request){
+
+
+        $siteMessage='  <h2>
+                            <strong><span style="color: #ff9900;">Online Reservation Info</span></strong>
+                        </h2>
+
+                        <table style="border: 2px solid #000000; width: 436px;">
+
+                        <tbody>
+
+                        <tr style="height: 32px;">
+
+                        <td style="width: 184px; height: 32px;">Reservation Created</td>
+
+                        <td style="width: 244px; height: 32px;">&nbsp;'.date('dS M Y, h:i A').'</td>
+
+                        </tr>
+
+                        <tr style="height: 46px;">
+
+                        <td style="width: 428px; height: 46px;" colspan="2">
+
+                        <h3 style="display: block; width: 80%; border-bottom: 3px #000 solid;"><strong>Reservation Detail</strong></h3>
+
+                        </td>
+
+                        </tr>
+
+                        
+                        <tr style="height: 18px;">
+
+                        <td style="width: 184px; height: 18px;">&nbsp;Name</td>
+
+                        <td style="width: 244px; height: 18px;">'.$request->name.'</td>
+
+                        </tr>
+                        <tr style="height: 18px;">
+
+                        <td style="width: 184px; height: 18px;">&nbsp;Email</td>
+
+                        <td style="width: 244px; height: 18px;">'.$request->email.'</td>
+
+                        </tr>
+                        <tr style="height: 18px;">
+
+                        <td style="width: 184px; height: 18px;">&nbsp;Phone</td>
+
+                        <td style="width: 244px; height: 18px;">'.$request->phone.'</td>
+
+                        </tr>
+                        <tr style="height: 18px;">
+
+                        <td style="width: 184px; height: 18px;">&nbsp;Date</td>
+
+                        <td style="width: 244px; height: 18px;">'.$request->Date.'</td>
+
+                        </tr>
+
+                        <tr style="height: 18px;">
+
+                        <td style="width: 184px; height: 18px;">&nbsp;Time&nbsp;</td>
+
+                        <td style="width: 244px; height: 18px;">'.$request->time.'</td>
+
+                        </tr>
+
+                        <tr style="height: 18px;">
+
+                        <td style="width: 184px; height: 18px;">&nbsp;Person&nbsp;</td>
+
+                        <td style="width: 244px; height: 18px;">'.$request->person.'</td>
+
+                        </tr>
+                        </tbody>
+
+                        </table>
+
+                        <p>Kind Regards, '.$this->sdc->SiteName.'&nbsp;</p>
+
+                        <p>&nbsp;</p>';
+
+        return $siteMessage;
     }
 }

@@ -23,12 +23,12 @@ class CoreCustomController extends Facade {
      * @return \Illuminate\Http\Response
      */
 
-    public $SiteName="The Bombay Cottage";
+    public $SiteName="Spicecorner";
 
-    public $SiteURL="thebombaycottage.com";
-    public $TableReservationAdminEmail="kamalhemel@gmail.com";
-    public $ContactAdminEmail="kamalhemel@gmail.com";
-    public $reply="kamalhemel@gmail.com";
+    public $SiteURL="spicecorner.se";
+    public $TableReservationAdminEmail="f.bhuyian@gmail.com";
+    public $ContactAdminEmail="f.bhuyian@gmail.com";
+    public $reply="f.bhuyian@gmail.com";
 
     public $paypal_client_id="";
     public $paypal_secret="";
@@ -179,11 +179,11 @@ class CoreCustomController extends Facade {
               $mail->SMTPSecure = 'tls';            // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
               $mail->Port       = 26;    
 
-              $mail->setFrom('noreply@neutrix.systems', 'Kenin');
+              $mail->setFrom('info@spicecorner.se', 'Spicecorner.se');
               
               //$mail->addAddress($to, 'Fahad Bhuyian');
               $mail->addAddress($to);               // Name is optional
-              $mail->addReplyTo('support@neutrix.systems', 'Reply - Kenin Support ');
+              $mail->addReplyTo('info@spicecorner.se', 'Reply - Spicecorner Support ');
              // $mail->addCC('cc@example.com');
               $mail->addBCC('f.bhuyian@gmail.com');
              // $mail->addBCC('seoprohub@gmail.com');

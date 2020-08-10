@@ -37,8 +37,8 @@
               <p>Dashboard</p>
             </a>
           </li>
-          <li class="nav-item has-treeview {{ in_array(Request::path(),array('about','galleryheading','galleryphoto','openinghour','privacycms'))?'menu-open':'' }}">
-            <a href="#" class="nav-link {{ in_array(Request::path(),array('about','galleryheading','galleryphoto','openinghour','privacycms'))?'active':'' }}">
+          <li class="nav-item has-treeview {{ in_array(Request::path(),array('about','galleryheading','galleryphoto','openinghour','privacycms','category'))?'menu-open':'' }}">
+            <a href="#" class="nav-link {{ in_array(Request::path(),array('about','galleryheading','galleryphoto','openinghour','privacycms','category'))?'active':'' }}">
               <i class="nav-icon fas fa-images"></i>
               <p>
                 Content CMS
@@ -76,6 +76,12 @@
                   <p>Privacy CMS</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{url('category')}}" class="nav-link {{ Request::path() == 'category' ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Menu Name CMS</p>
+                </a>
+              </li>
             </ul>
           </li>
     
@@ -91,12 +97,7 @@
               <p>Table Booking</p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{{url('category')}}" class="nav-link {{ Request::path() == 'category' ? 'active' : '' }}">
-              <i class="nav-icon fas fa-igloo"></i>
-              <p>Menu Name CMS</p>
-            </a>
-          </li>
+          
           
           
           

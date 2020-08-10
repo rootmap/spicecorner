@@ -55,6 +55,7 @@ class OurMenuDayController extends Controller
 
     public function store(Request $request)
     {
+        //dd($request);
         $this->validate($request,[
                 
                 'name'=>'required',
@@ -68,6 +69,7 @@ class OurMenuDayController extends Controller
         
         $tab->name=$request->name;
         $tab->module_status=$request->module_status;
+        $tab->opt_menu=json_encode($request->field_name);
         $tab->save();
 
         return redirect('ourmenuday')->with('status','Added Successfully !');
@@ -268,6 +270,7 @@ class OurMenuDayController extends Controller
         $tab=OurMenuDay::find($id);
         
         $tab->name=$request->name;
+        $tab->opt_menu=json_encode($request->field_name);
         $tab->module_status=$request->module_status;
         $tab->save();
 

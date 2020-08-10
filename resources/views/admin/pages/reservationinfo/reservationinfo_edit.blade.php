@@ -80,7 +80,7 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-4">
                       <!-- text input -->
                       <div class="form-group">
                         <label for="booking_admin_email">Booking Admin Email</label>
@@ -97,7 +97,76 @@
                         class="form-control" placeholder="Enter Booking Admin Email" id="booking_admin_email" name="booking_admin_email">
                       </div>
                     </div>
+                    <div class="col-sm-4">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label for="booking_admin_email">Booking Max Person</label>
+                        <select name="booking_max_person" id="booking_max_person" class="form-control">
+                            <option value="">Select Max Person</option>
+                            @for ($i=1; $i<500; $i++)
+                            <option 
+                            
+                            <?php 
+                            if(isset($dataRow->booking_max_person)){
+                              if ($dataRow->booking_max_person==$i) {
+                                ?>
+                                selected="selected" 
+                                <?php 
+                              }
+                            }
+                            ?>
+                             value="{{$i}}">{{$i}} Person</option>
+                            @endfor
+                        </select>
+                        
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label for="booking_admin_email">Booking Minute Frame</label>
+                        <select name="booking_min_frame" id="booking_min_frame" class="form-control">
+                            <option value="">Select Minute Frame</option>
+                            @for ($i=1; $i<=50; $i++)
+                            <option 
+                            
+                            <?php 
+                            if(isset($dataRow->booking_min_frame)){
+                              if ($dataRow->booking_min_frame==$i) {
+                                ?>
+                                selected="selected" 
+                                <?php 
+                              }
+                            }
+                            ?>
+                             value="{{$i}}">{{$i}} Minute</option>
+                            @endfor
+                        </select>
+                        
+                      </div>
+                    </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <!-- text input -->
+                    <div class="form-group">
+                      <label for="reservation_title">Reservation Request Message</label>
+                      <input type="text" 
+                          
+                      <?php 
+                      if(isset($dataRow->reservation_request_message)){
+                          ?>
+                          value="{{$dataRow->reservation_request_message}}" 
+                          <?php 
+                      }
+                      ?>
+                      
+                      class="form-control" placeholder="Enter Reservation Request Message" id="reservation_request_message" name="reservation_request_message">
+                    </div>
+                  </div>
+              </div>
+              
                 
                         <div class="row">
                             <div class="col-md-12">

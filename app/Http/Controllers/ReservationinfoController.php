@@ -297,6 +297,9 @@ class ReservationInfoController extends Controller
                 'opening_hour_title'=>'required',
                 'reservation_title'=>'required',
                 'booking_admin_email'=>'required',
+                'booking_max_person'=>'required',
+                'booking_min_frame'=>'required',
+                'reservation_request_message'=>'required',
                 'module_status'=>'required',
         ]);
 
@@ -308,6 +311,9 @@ class ReservationInfoController extends Controller
         $tab->opening_hour_title=$request->opening_hour_title;
         $tab->reservation_title=$request->reservation_title;
         $tab->booking_admin_email=$request->booking_admin_email;
+        $tab->booking_max_person=$request->booking_max_person;
+        $tab->booking_min_frame=$request->booking_min_frame;
+        $tab->reservation_request_message=$request->reservation_request_message;
         $tab->module_status=$request->module_status;
         $tab->save();
 
