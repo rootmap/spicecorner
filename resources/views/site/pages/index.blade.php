@@ -20,7 +20,7 @@
     <div class="container well" id="about" style="padding-top: 95px;">
         <div class="row">
             <div class="grid_12">
-                <h2 class="hdng">
+                <h2 class="hdng" style="font: 400 100px/100px 'Dancing Script', cursive;">
                     {{$about->title}}
                     <span>{{$about->sub_title}}</span>
                 </h2>
@@ -71,6 +71,7 @@
             text-align: right;
             float: right;
             color:#950F24;
+            padding-right: 50px;
         }
 
         .omg_heading{
@@ -103,7 +104,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="grid_12">
-                                <h2 class="hdng">
+                                <h2 class="hdng"  style="font: 400 100px/100px 'Dancing Script', cursive;">
                                     {{$category[0]->name}} 
                                     <span style="font: 100 46px/50px 'Lato', sans-serif;">{{$category[0]->sub_name}}</span>
                                 </h2>
@@ -148,7 +149,7 @@
 												@if($kkn==1)
 													<div class="row">
 												@endif
-                                            <div class="grid_4">
+                                            <div class="grid_6">
                                                 <div class="box2 box2__off1" style="margin-bottom: 15px;">
                                                     <h4 class="omg_title" style="--var-omg-price:'{{$row['price']}}'">{{$kkk}}. {{$row['name']}}</h4>
                                                     <p class="om_menu_item_detail" style="margin-top: 0px;">{{$row['description']}}</p>
@@ -156,7 +157,7 @@
                                                 </div>
                                             </div>
 											
-											@if($kkn==3)
+											@if($kkn==2)
 													</div>
 												<?php $kkn=0;  ?>
 											@elseif($kkn_i==$kkn_count)
@@ -342,7 +343,7 @@
         <div class="container well well__ins3" style="padding: 69px 0 64px;">
             <div class="row">
                 <div class="grid_12">
-                    <h2 class="hdng">
+                    <h2 class="hdng" style="font: 400 100px/100px 'Dancing Script', cursive;">
                         gallery
                         <span>of our restaurant</span>
                     </h2>
@@ -398,9 +399,9 @@
             <div class="container">
             <div class="row" style="transform: translate3d(0px, 0px, 0px); padding-top:121px; padding-bottom:100px;">
                 
-                <div class="grid_4" style="padding-bottom: 30px;">
-                    <h4>
-                        <span class="hdng" style="display: block; font-weight: bolder; color: #FFF; font: 400 50px/100px 'Dancing Script', cursive;
+                <div class="grid_4" style="padding-bottom: 30px; ">
+                    <h4 style="margin-top: 20px;">
+                        <span class="hdng" style="display: block; font-weight: bolder; color: #FFF; font: 400 50px/17px 'Dancing Script', cursive;
                         text-align: center; text-transform: capitalize;">{{$reservationInfo->opening_hour_title}}</span>
                     </h4>
                     <div class="box2 box2__off1" style="padding-top:0px; background: rgba(0,0,0,0.5);
@@ -430,7 +431,7 @@
                 <div class="grid_8" style="background: url('{{asset('site/images/cnt-bg.jpg')}}'); border-radius: 5px;">
                     <div class="well well__ins8"  style="padding-bottom: 45px;">
                         <h2>
-                            <span class="hdng" style="display: block; font-weight: bolder; font: 400 50px/100px 'Dancing Script', cursive;
+                            <span class="hdng" style="display: block; font-weight: bolder; font: 400 50px/2px 'Dancing Script', cursive;
                             text-align: center; text-transform: capitalize;">{{$reservationInfo->reservation_title}}</span>
                         </h2>
 
@@ -494,8 +495,9 @@
                 
 
                                 <div class="btn-wr" style="text-align:left;">
-                                    {{-- <button type="submit" style="border: 0px;" class="btn" href="javascript:recaptcha();" data-type="submit">send</button> --}}
-                                    <button type="submit" style="border: 0px;" class="btn">send</button>
+                                    
+									<div class="g-recaptcha" data-sitekey="6Lf5Pr0ZAAAAAC32UwMlq6sfAn38ht073SyUAxRA"></div>
+                                    <button  type="submit" id="resBook" style="border: 0px;" class="btn">send</button>
                                     
                                 </div>
                             </fieldset>
@@ -519,7 +521,7 @@
             <div class="container well well__ins3" style="padding-top: 0px; padding-bottom: 35px;">
                 <div class="row">
                     <div class="grid_12">
-                        <h2 class="hdng">
+                        <h2 class="hdng" style="font: 400 100px/100px 'Dancing Script', cursive;">
                             {{$homeDelivery->title}}
                             <span>{{$homeDelivery->sub_title}}</span>
                         </h2>
@@ -633,7 +635,9 @@
 @endsection
 
 @section('js')
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="{{asset('site/smartphoto/js/jquery-smartphoto.min.js?v=1')}}"></script>
+ 
 <script>
 
     var windowHeightSize=$(window).height();
@@ -665,6 +669,18 @@
 
 
     $(document).ready(function(){
+		
+		@if (count($errors) > 0)
+				<?php $errorMsg=""; ?>
+				@foreach ($errors->all() as $error)
+				<?php $errorMsg.=$error; ?>
+				@endforeach
+				Swal.fire({
+					icon: 'error',
+					title: '<h3 class="text-danger">Warning</h3>',
+					html: "<h5>{{$errorMsg}}</h5>"
+				});
+		@endif
 
         @if(Session::has('status')) 
             Swal.fire({
@@ -673,6 +689,83 @@
                 html: "<h5>{{Session::get('status')}}</h5>"
             });
         @endif
+		
+		$('#contact-form').on('submit',function(e){
+			
+			var captcha=$("#g-recaptcha-response").val();
+			if(captcha==="")
+			{
+				 Swal.fire({
+					icon: 'warning',
+					title: '<h3 class="text-error">Warning</h3>',
+					html: "<h5>Please check you are not a robot.</h5>"
+				});
+				return false;
+			}		
+		});
+		
+		$('#resBook').on('click',function(e){
+			
+			var captcha=$("#g-recaptcha-response").val();
+			if(captcha==="")
+			{
+				e.preventDefault();
+				 Swal.fire({
+					icon: 'warning',
+					title: '<h3 class="text-error">Warning</h3>',
+					html: "<h5>Please check you are not a robot.</h5>"
+				});
+				return false;
+			}
+			
+			var name=$("input[name=name]").val();
+			var phone=$("input[name=phone]").val();
+			var email=$("input[name=email]").val();
+			
+			if(name.length==0)
+			{
+				e.preventDefault();
+				 Swal.fire({
+					icon: 'warning',
+					title: '<h3 class="text-error">Warning</h3>',
+					html: "<h5>Please Enter Your Name.</h5>"
+				});
+				$("input[name=name]").focus();
+				return false;
+			}
+			
+			if(phone.length==0)
+			{
+				e.preventDefault();
+				 Swal.fire({
+					icon: 'warning',
+					title: '<h3 class="text-error">Warning</h3>',
+					html: "<h5>Please Enter Your Phone Number.</h5>"
+				});
+				$("input[name=phone]").focus();
+				return false;
+			}
+			
+			if(email.length==0)
+			{
+				e.preventDefault();
+				 Swal.fire({
+					icon: 'warning',
+					title: '<h3 class="text-error">Warning</h3>',
+					html: "<h5>Please Enter Your Email Address.</h5>"
+				});
+				$("input[name=email]").focus();
+				return false;
+			}
+			
+			
+			e.preventDefault();
+			
+			$("#contact-form").submit();
+			
+			return true;
+		
+		});
 
         $('body').on('click','.loadom',function(){
             //alert('ok');
@@ -744,7 +837,7 @@
 									{
 										dataHj+='<div class="row">';
 									}
-                                    dataHj+='    <div class="grid_4">';
+                                    dataHj+='    <div class="grid_6">';
                                     dataHj+='        <div class="box2 box2__off1" style="margin-bottom: 15px;">';
                                     dataHj+='            <h4 class="omg_title" style="--var-omg-price:';
                                     dataHj+="'"+q.price+"'";
