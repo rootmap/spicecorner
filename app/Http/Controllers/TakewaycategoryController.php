@@ -67,6 +67,7 @@ class TakewayCategoryController extends Controller
         $tab=new TakewayCategory();
         
         $tab->name=$request->name;
+        $tab->description=$request->description;
         $tab->module_status=$request->module_status;
         $tab->save();
 
@@ -268,6 +269,7 @@ class TakewayCategoryController extends Controller
         $tab=TakewayCategory::find($id);
         
         $tab->name=$request->name;
+        $tab->description=$request->description;
         $tab->module_status=$request->module_status;
         $tab->save();
 

@@ -84,6 +84,15 @@
                       </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label for="name">Description</label>
+                        <textarea class="form-control" placeholder="Enter Description" id="description" name="description"></textarea>
+                      </div>
+                    </div>
+                </div>
                 
                         <div class="row">
                             <div class="col-md-12">

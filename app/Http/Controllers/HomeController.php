@@ -52,14 +52,14 @@ class HomeController extends Controller
             foreach ($MenuItem as $key => $mn) {
                 $mnt[]=['id'=>$mn->id,'name'=>$mn->name,'description'=>$mn->description,'price'=>$mn->price];
             }
-            $subCat[]=['id'=>$sc->id,'name'=>$sc->name,'mnitm'=>$mnt];
+            $subCat[]=['id'=>$sc->id,'name'=>$sc->name,'description'=>$sc->description,'mnitm'=>$mnt];
         }
 
         return $subCat;
     }
 
     private function takeawayMenu(){
-        $SubCategory=TakewayCategory::select('id','name',\DB::Raw("(SELECT count(id) FROM takeway_menu_items WHERE category_id=takeway_categories.id) as total_item"))->where('module_status','Active')->get();
+        $SubCategory=TakewayCategory::select('id','name','description',\DB::Raw("(SELECT count(id) FROM takeway_menu_items WHERE category_id=takeway_categories.id AND deleted_at is null) as total_item"))->where('module_status','Active')->get();
         $subCat=[];
         foreach ($SubCategory as $key => $sc) {
             $MenuItem=TakewayMenuItem::where('category_id',$sc->id)->get();
@@ -67,7 +67,7 @@ class HomeController extends Controller
             foreach ($MenuItem as $key => $mn) {
                 $mnt[]=['id'=>$mn->id,'name'=>$mn->name,'description'=>$mn->description,'price'=>$mn->price];
             }
-            $subCat[]=['id'=>$sc->id,'name'=>$sc->name,'total_item'=>$sc->total_item,'mnitm'=>$mnt];
+            $subCat[]=['id'=>$sc->id,'name'=>$sc->name,'description'=>$sc->description,'total_item'=>$sc->total_item,'mnitm'=>$mnt];
         }
 
         return $subCat;
@@ -85,7 +85,7 @@ class HomeController extends Controller
         $GalleryPhoto=GalleryPhoto::orderBy('id','ASC')->take('8')->get();
         $openingHour=OpeningHour::orderBy('id','ASC')->get();
         $DayWiseCategory=OurMenuDay::select('id','name','opt_menu',\DB::Raw("(SELECT count(id) FROM day_menu_items WHERE day_id=our_menu_daies.id) as total_item"))->where('module_status','Active')->orderBy('id','ASC')->get();
-        $OurMenuCategory=OurMenuCategory::select('id','name','day_id')->where('module_status','Active')->orderBy('id','ASC')->get();
+        $OurMenuCategory=OurMenuCategory::select('id','description','name','day_id')->where('module_status','Active')->orderBy('id','ASC')->get();
         $DayMenuItem=DayMenuItem::where('module_status','Active')->orderBy('id','ASC')->get();
         
         //dd($DayWiseCategory);
@@ -117,6 +117,7 @@ class HomeController extends Controller
                         $subCat[]=[
                             'id'=>$row->id,
                             'name'=>$row->name,
+                            'description'=>$row->description,
                             'mnitm'=>$mnitm,
                         ];
                     }

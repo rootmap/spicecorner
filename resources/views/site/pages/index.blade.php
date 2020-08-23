@@ -83,7 +83,17 @@
                 text-align: left;
                 text-decoration: none;
                 transition: font-size 2s;
-                padding-bottom: 10px;
+                padding-bottom:0px;
+        }
+
+        .omg_heading_p{
+                text-align: left;
+                margin-top: 0px !important;
+                margin-bottom: 15px;
+                color: #EE2125;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 400;
+                font-size: 14px;
         }
 
         .loadom{
@@ -136,6 +146,7 @@
                                             <div class="grid_12">
                                                 <div class="box2 box2__off1" style="margin-bottom: 0px;">
                                                     <h4 class="omg_heading">{{$item['name']}}</h4>                                    
+                                                    <p class="omg_heading_p">{{$item['description']}}</p>                                    
                                                 </div>
                                             </div>
 										</div>
@@ -214,6 +225,7 @@
                     <h2 class="hdng" style="font: 400 100px/100px 'Dancing Script', cursive;">
                         {{$category[1]->name}} 
                         <span>{{$category[1]->sub_name}} </span>
+                        <span>{{$category[1]->description}} </span>
                     </h2>
                 </div>
             </div>
@@ -293,7 +305,16 @@
                     <section id="content">
          
                         <div class="container" id="tw_item">
-                                
+                                <div class="row">
+                                    <div class="grid_12">
+                                        <h4 class="omg_heading">
+                                            {{$takeawayMenu[0]['name']}}
+                                        </h4>
+                                        <p class="omg_heading_p">
+                                            {{$takeawayMenu[0]['description']}}
+                                        </p>
+                                    </div>
+                                </div>
                             @isset($takeawayMenu[0]['mnitm'])
                                 <?php 
                                 $countTotalItemtw=count($takeawayMenu[0]['mnitm']);
@@ -809,11 +830,18 @@
                         if(n.day_id==r.id)
                         {
                             console.log('Cate Found =',n);
-
                             dataHj+='<div class="row">';
                             dataHj+='    <div class="grid_12">';
                             dataHj+='        <div class="box2 box2__off1" style="margin-bottom: 0px;">';
-                            dataHj+='            <h4  class="omg_heading">'+n.name+'</h4>';                                    
+                               
+                            if(n.description=== null)
+                            {           
+                            dataHj+='            <h4  class="omg_heading" style="padding-bottom:15px;">'+n.name+'</h4>';
+                            }else{
+                            dataHj+='            <h4  class="omg_heading">'+n.name+'</h4>';
+                            dataHj+='            <p class="omg_heading_p">'+n.description+'</p>';     
+                            }                      
+                                                           
                             dataHj+='        </div>';
                             dataHj+='    </div>';
 							dataHj+='</div>';
@@ -904,6 +932,28 @@
                     var nn=data_length;
                     var dataLength=row.mnitm.length;
                     console.log('dataLength',dataLength);
+
+                        dataHtml+='<div class="row">';
+                        dataHtml+=' <div class="grid_12">';
+                        dataHtml+='     <h4 class="omg_heading">';
+                        dataHtml+=row.name;
+                        dataHtml+='     </h4>';
+                        if(row.description=== null)
+                        {
+                            dataHtml+='     <p class="omg_heading_p"></p>';
+                        }
+                        else
+                        {
+                            dataHtml+='     <p class="omg_heading_p">';
+                                dataHtml+=row.description;
+                            dataHtml+='     </p>';
+                        }
+                        
+                        dataHtml+=' </div>';
+                        dataHtml+='</div>';
+
+
+
                     $.each(row.mnitm,function(k,r){
                         console.log(r);
                         if(m==1)

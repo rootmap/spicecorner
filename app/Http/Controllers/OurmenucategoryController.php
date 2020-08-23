@@ -75,6 +75,7 @@ class OurMenuCategoryController extends Controller
         $tab->day_id_name=$day_id_0_OurMenuDay;
         $tab->day_id=$request->day_id;
         $tab->name=$request->name;
+        $tab->description=$request->description;
         $tab->module_status=$request->module_status;
         $tab->save();
 
@@ -290,6 +291,7 @@ class OurMenuCategoryController extends Controller
         $tab->day_id_name=$day_id_0_OurMenuDay;
         $tab->day_id=$request->day_id;
         $tab->name=$request->name;
+        $tab->description=$request->description;
         $tab->module_status=$request->module_status;
         $tab->save();
 
